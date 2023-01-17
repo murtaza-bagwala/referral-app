@@ -1,8 +1,8 @@
-const API_HOST = 'http://localhost:3001/api';
+const API_HOST = 'http://localhost:3001/api/users';
 
 export async function logoutUser(token) {
   
-  return fetch(`${API_HOST}/users/logout`, {
+  return fetch(`${API_HOST}/logout`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -14,7 +14,7 @@ export async function logoutUser(token) {
 }
 
 export async function loginUser(credentials) {
-  const response = await fetch(`${API_HOST}/users/login`, {
+  const response = await fetch(`${API_HOST}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export async function loginUser(credentials) {
 }
 
 export async function registerUser(credentials) {
-  const response = await fetch(`${API_HOST}/users/signup`, {
+  const response = await fetch(`${API_HOST}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -44,17 +44,28 @@ export async function registerUser(credentials) {
   return { token, data };
 }
 
-export async function fetchReferralList(credentials) {
-  const response = await fetch(`${API_HOST}/users/signup`, {
+export async function fetchReferralList(token) {
+  const response = await fetch(`${API_HOST}/invitations/invited_by_user`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+  const data =  await response.json();
+  return data;
+}
+
+export async function inviteUser(email, token) {
+  const response = await fetch(`${API_HOST}/invitation`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
     },
-    body: JSON.stringify({ user: credentials }),
+    body: JSON.stringify({ user: { email } }),
   });
-
-  let token = response.headers.get("authorization");
-  token = token && token.split(" ")[1];
   const data =  await response.json();
-  return { token, data };
+  return data;
 }
+

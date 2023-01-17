@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Logout from './Logout';
+import ReferralDialog from './ReferralDialog';
 
 
 const activeStyle = {
@@ -23,6 +24,9 @@ export default function Header( { setToken } ) {
           </li>
           <li>
             <Logout setToken = {setToken}/>
+          </li>
+          <li>
+            <ReferralDialog />
           </li>
         </ul>
       </nav>

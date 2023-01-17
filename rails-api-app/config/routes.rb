@@ -10,5 +10,9 @@ Rails.application.routes.draw do
       registrations: 'users/registrations',
       invitations: 'users/invitations',
     }
+
+    devise_scope :user do
+      get 'users/invitations/invited_by_user', to: "users/invitations#invited_by_user"
+    end
   end
 end

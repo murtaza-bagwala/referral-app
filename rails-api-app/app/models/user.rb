@@ -13,6 +13,8 @@ class User < ApplicationRecord
                        length: { minimum: 10, maximum: 15 }
   validates :name, uniqueness: true, format: { with: /\A[^0-9`!@#$%\^&*+_=]+\z/ }, presence: true
 
+  has_many :invitations, class_name: 'User', as: :invited_by
+
   def authenticatable_salt
     "#{super}#{session_token}"
   end

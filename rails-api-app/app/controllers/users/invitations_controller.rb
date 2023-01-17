@@ -8,11 +8,18 @@ module Users
       invite = User.invite!(
         { email: invite_params[:email], skip_invitation: true, invitation_sent_at: DateTime.now }, current_user
       )
+      return handle_validation_error(invite) if invite.errors.present?
       invite_url = accept_user_invitation_url(invitation_token: invite.raw_invitation_token)
       UserMailer.invitation_email(invite, invite_url).deliver_now
       render json: { status: :ok }
-    rescue ex
-      handle_validation_error(invite)
+    end
+
+    def invited_by_user 
+      invitations = current_user.invitations
+      render json: {
+        referralList: UserSerializer.new(invitations).serializable_hash[:data].map{|data| data[:attributes]}
+      }, status: :ok
+
     end
 
     def update
