@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  def handle_not_found_error(exception)
-    message = exception.message || I18n.t('errors.not_found')
+  def handle_not_found_error(exception = nil)
+    message = exception && exception.message || I18n.t('errors.not_found')
 
     render json: { errors: [message] }, status: :not_found
   end

@@ -30,7 +30,7 @@ module Users
           message: 'logged out successfully'
         }, status: :ok
       else
-        handle_not_found_error
+        handle_not_found_error()
       end
     end
   end
