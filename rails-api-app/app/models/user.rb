@@ -5,7 +5,19 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
 
-  devise :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
+
+  validates :phone_no, uniqueness: true, presence: true, numericality: true,
+                       length: { minimum: 10, maximum: 15 }
+  validates :name, uniqueness: true, format: { with: /\A[^0-9`!@#$%\^&*+_=]+\z/ }, presence: true
+
+  def authenticatable_salt
+    "#{super}#{session_token}"
+  end
+
+  def invalidate_all_sessions!
+    update_attribute(:session_token, SecureRandom.hex)
+  end
 end
