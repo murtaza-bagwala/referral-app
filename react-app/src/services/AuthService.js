@@ -1,4 +1,6 @@
-const API_HOST = process.env.API_HOST;
+const API_HOST = process.env.REACT_APP_API_HOST;
+
+console.log(process.env)
 
 export async function logoutUser(token) {
   return fetch(`${API_HOST}/logout`, {

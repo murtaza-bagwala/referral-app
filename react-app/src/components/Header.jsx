@@ -1,14 +1,10 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logout from "./Logout";
 import ReferralDialog from "./ReferralDialog";
 
-const activeStyle = {
-  color: "purple",
-};
-
 export default function Header({ setToken }) {
-  const currentUserName = sessionStorage.getItem("currentUserName");
+  const currentUserName = sessionStorage.getItem("currentUserName") || "User";
   return (
     <header>
       <nav>

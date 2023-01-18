@@ -28,7 +28,9 @@ export default function Signup({ setToken }) {
     });
 
     if (token) {
-      sessionStorage.setItem("currentUserName", data.data.name);
+      if (data.data.name) {
+        sessionStorage.setItem("currentUserName", data.data.name);
+      }
       setToken(token);
     } else {
       setError(data.error);

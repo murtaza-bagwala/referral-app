@@ -9,7 +9,11 @@ import ReferralList from "./ReferralList";
 export default function App() {
   const [token, setToken] = useState();
 
-  if (!token) {
+  const tokenInSession = () => {
+    return sessionStorage.getItem("token");
+  }
+
+  if (!token && !tokenInSession()) {
     return <Login setToken={setToken} />;
   }
 

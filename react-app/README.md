@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# Referral App :books:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+API only Rails app that
+handles online courses, its author and talents. The API includes CRUD operations
+for all these items. Also one important
+feature is that when deleting an author, the course gets transferred to
+another author. And if the new author was a talent of the transferred course then the course gets added to the list of `authored_courses` and removed from `learnt_courses` for the new author.
 
-## Available Scripts
+Also, I am not using any authentication library like `Devise`, we are just expecting the uuid for the users in requests.
 
-In the project directory, you can run:
+## Prerequisites
 
-### `npm start`
+This app uses :- 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Ruby on Rails 6.0 
+- Ruby 2.6.3 
+- Postgres 13
+- JSON API Resources from [master](https://github.com/cerebris/jsonapi-resources)
+- Rspec for unit tests.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+- `git clone git@github.com:murtaza-bagwala/learning-management-system.git`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- `rvm use 2.6.3`
 
-### `npm run build`
+- `bundle i`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `rename .env.example to .env and add the DATABASE_URL`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `rails db:setup`. This will create the DB, run the migration and seed the initial data from `seeds.rb`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `rails s`
 
-### `npm run eject`
+- `rspec spec/. for testcases`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+or if you are familier with docker then just run these commands
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `docker compose build`
+- `docker compose up`
+- `docker compose run app rake db:setup`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+***note: docker-compose uses Dockerfile.local and there is another Dockefile which is created for fly.io deployment***
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Entity Relationship Diagram
 
-## Learn More
+An ERD Diagram, which mentions entities of the systems and their relationships. **User** can be an **Author** or a **Talent**, **User** `has_many` **Authored Courses**, **Courses** `has_many` **Lessons**, **User** `has_many` **Learnt Courses** through **UserCourses** and **Course** `has_many` **Talents** through **UserCourses**.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![alt](erd.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Postman Collection
 
-### Code Splitting
+To verify all the actions, postman collection is also added, you can find it in a root of a folder with a name **Learning-Management-System.postman_collection.json**, You can download the same and run on Postman collection runner. Default `base_url` is set as `https://elearnio-rails-challenge.fly.dev` this is where this application is currently deployed.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## Current Application Infrastructure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Currently this application is deployed on [fly.io](https://www.fly.io) on 512MB shared CPU with 1 GB Postgres DB storage but as we scale out we might need to move this to some big machine providers like AWS/GCP etc.
 
-### Making a Progressive Web App
+As I am a big proponent of extreme programming and CI/CD is one of the most important pillars of it, so I have setup the Github Actions workflows for the same.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### CI
 
-### Advanced Configuration
+Before code gets merged to `main` branch, it runs 2 workflows.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1) Rubocop to findout any formatting issues.
+2) Rspec unit tests to check if there are any failed testcases. I have written models and integration testcases. 
 
-### Deployment
+### CD
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Now once CI passes successfully and code gets merged to `main` branch I have created another workflow `.github/workflows/fly.yml`  which deploys the latest code to fly.io 
 
-### `npm run build` fails to minify
+## Future Application Infrastructure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Now if scale out in future then this is how our deployment architecture would look like:- 
+
+![alt](future-infrastructure.png)
+
+- Terraform scripts to set the up the infrastructure.
+- Once the code is merged Circle CI would build and pushes the image the ECR
+- Trigger the EKS to pull the images from ECR and create the .containers

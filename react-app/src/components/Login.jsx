@@ -41,7 +41,9 @@ export default function SignIn({ setToken }) {
       password,
     });
     if (token) {
-      sessionStorage.setItem("currentUserName", data.data.name);
+      if (data.data.name) {
+        sessionStorage.setItem("currentUserName", data.data.name);
+      }
       setToken(token);
     } else {
       setError(data.error);

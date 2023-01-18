@@ -13,8 +13,6 @@ const AcceptInvite = () => {
   const classes = useStyles();
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
@@ -24,8 +22,6 @@ const AcceptInvite = () => {
     }).invitation_token;
     const data = await acceptInvite({
       password,
-      name,
-      phone_no: phoneNumber,
       password_confirmation: passwordConfirmation,
       invitation_token: invitationToken,
     });
@@ -68,26 +64,6 @@ const AcceptInvite = () => {
             id="confirm-password"
             autoComplete="confirm-password"
             onChange={(e) => setPasswordConfirmation(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="phone-no"
-            label="Phone Number"
-            name="phone-no"
-            onChange={(e) => setPhoneNumber(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="name"
-            label="name"
-            id="name"
-            onChange={(e) => setName(e.target.value)}
           />
           <Button
             type="submit"
