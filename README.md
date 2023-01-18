@@ -14,7 +14,7 @@ A Fullstack App built using API only Rails and React.
 
 ### Demo Video
 
-![alt](demo.mov)
+
 
 ## Prerequisites
 
