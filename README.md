@@ -14,6 +14,8 @@ A Fullstack App built using API only Rails and React.
 
 ### Demo Video
 
+![alt](demo.mov)
+
 ## Prerequisites
 
 This app uses :- 
@@ -39,7 +41,7 @@ This app uses :-
 
 - `bundle i`
 
-- `rename .env.example to .env and add the DATABASE_URL`
+- `rename .env.example to .env and add the DATABASE_URL and REACT_HOST`
 
 - `rails db:setup`. This will create the DB and run the migration.
 
