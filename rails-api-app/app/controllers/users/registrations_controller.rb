@@ -16,7 +16,7 @@ module Users
     def respond_with(resource, _opts = {})
       if resource.persisted?
         render json: {
-          status: { code: 201, message: 'Signed up sucessfully.' },
+          status: { status: 201, message: 'Signed up sucessfully.' },
           data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
         }
       else

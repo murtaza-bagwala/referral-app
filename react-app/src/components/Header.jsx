@@ -1,14 +1,13 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import Logout from './Logout';
-import ReferralDialog from './ReferralDialog';
-
+import React from "react";
+import { Link, NavLink } from "react-router-dom";
+import Logout from "./Logout";
+import ReferralDialog from "./ReferralDialog";
 
 const activeStyle = {
-  color: 'purple',
+  color: "purple",
 };
 
-export default function Header( { setToken } ) {
+export default function Header({ setToken }) {
   const currentUserName = sessionStorage.getItem("currentUserName");
   return (
     <header>
@@ -19,11 +18,9 @@ export default function Header( { setToken } ) {
               <img alt="Referral App" src="/images/logo.png" />
             </Link>
           </li>
+          <li>{`Welcome ${currentUserName}`}</li>
           <li>
-            { `Welcome ${currentUserName}` }
-          </li>
-          <li>
-            <Logout setToken = {setToken}/>
+            <Logout setToken={setToken} />
           </li>
           <li>
             <ReferralDialog />

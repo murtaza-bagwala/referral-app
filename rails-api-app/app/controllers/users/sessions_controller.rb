@@ -13,7 +13,7 @@ module Users
 
     def respond_with(resource, _opts = {})
       render json: {
-        status: { code: 200, message: 'Logged in sucessfully.' },
+        status: { status: 200, message: 'Logged in sucessfully.' },
         data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
       }, status: :ok
     end
@@ -30,7 +30,7 @@ module Users
           message: 'logged out successfully'
         }, status: :ok
       else
-        handle_not_found_error()
+        handle_not_found_error
       end
     end
   end

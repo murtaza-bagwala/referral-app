@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Typography from '@material-ui/core/Typography';
-import { inviteUser } from '../services/AuthService';
+import React, { useEffect, useState } from "react";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Typography from "@material-ui/core/Typography";
+import { inviteUser } from "../services/AuthService";
 
 export default function ReferralDialog() {
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,19 +20,19 @@ export default function ReferralDialog() {
 
   const handleClose = () => {
     setOpen(false);
-    setMessage("")
+    setMessage("");
   };
 
   const handleSubmit = async () => {
-    setMessage("")
-    const token = sessionStorage.getItem('token');
+    setMessage("");
+    const token = sessionStorage.getItem("token");
     let response = await inviteUser(email, token);
     if (response.status === "ok") {
-        setMessage("Invite Sent")
+      setMessage("Invite Sent");
     } else {
-        setMessage(response.errors)
+      setMessage(response.errors);
     }
-  }
+  };
 
   return (
     <div>
@@ -41,13 +41,13 @@ export default function ReferralDialog() {
         variant="contained"
         color="primary"
         onClick={handleClickOpen}
-        >
+      >
         Invite User
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <Typography component="h1" variant="h5">
           {message}
-        </Typography>  
+        </Typography>
         <DialogTitle>Invite</DialogTitle>
         <DialogContent>
           <TextField

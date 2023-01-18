@@ -1,29 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import { loginUser } from '../services/AuthService';
-import Signup from './Signup';
-import useStyles from "../styles/styles"
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import { loginUser } from "../services/AuthService";
+import Signup from "./Signup";
+import useStyles from "../styles/styles";
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         Task Manager
-      </Link>
-      {' '}
-      {new Date().getFullYear()}
-      .
+      </Link>{" "}
+      {new Date().getFullYear()}.
     </Typography>
   );
 }
@@ -31,19 +29,19 @@ function Copyright() {
 export default function SignIn({ setToken }) {
   const classes = useStyles();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [showSignup, setShowSignup] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { token, data } = await loginUser({
-        email,
-        password,
-      });  
+      email,
+      password,
+    });
     if (token) {
-      sessionStorage.setItem("currentUserName", data.data.name)
+      sessionStorage.setItem("currentUserName", data.data.name);
       setToken(token);
     } else {
       setError(data.error);
@@ -51,9 +49,7 @@ export default function SignIn({ setToken }) {
   };
 
   if (showSignup) {
-    return (
-      <Signup setToken = {setToken}/>
-    );
+    return <Signup setToken={setToken} />;
   }
 
   return (
@@ -108,7 +104,7 @@ export default function SignIn({ setToken }) {
               <Link
                 component="button"
                 onClick={() => {
-								  setShowSignup(true);
+                  setShowSignup(true);
                 }}
               >
                 Don't have an account? Sign Up

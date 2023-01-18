@@ -4,13 +4,13 @@ import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
-import { registerUser } from "../services/AuthService";
+import { acceptInvite } from "../services/AuthService";
 import Typography from "@material-ui/core/Typography";
+import qs from "qs";
 import useStyles from "../styles/styles";
 
-export default function Signup({ setToken }) {
+const AcceptInvite = () => {
   const classes = useStyles();
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [name, setName] = useState("");
@@ -19,19 +19,21 @@ export default function Signup({ setToken }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let { token, data } = await registerUser({
-      email,
+    const invitationToken = qs.parse(window.location.search, {
+      ignoreQueryPrefix: true,
+    }).invitation_token;
+    const data = await acceptInvite({
       password,
-      password_confirmation: passwordConfirmation,
       name,
       phone_no: phoneNumber,
+      password_confirmation: passwordConfirmation,
+      invitation_token: invitationToken,
     });
 
-    if (token) {
-      sessionStorage.setItem("currentUserName", data.data.name);
-      setToken(token);
+    if (data.status === 200) {
+      setError("Invite accepted please signup");
     } else {
-      setError(data.error);
+      setError(data.errors);
     }
   };
 
@@ -43,28 +45,6 @@ export default function Signup({ setToken }) {
           {error}
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="name"
-            label="name"
-            id="name"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={(e) => setEmail(e.target.value)}
-          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -99,6 +79,16 @@ export default function Signup({ setToken }) {
             name="phone-no"
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="name"
+            label="name"
+            id="name"
+            onChange={(e) => setName(e.target.value)}
+          />
           <Button
             type="submit"
             fullWidth
@@ -106,10 +96,12 @@ export default function Signup({ setToken }) {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Accept Invite
           </Button>
         </form>
       </div>
     </Container>
   );
-}
+};
+
+export default AcceptInvite;

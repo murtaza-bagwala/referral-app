@@ -2,7 +2,7 @@
 
 class ApplicationController < ActionController::API
   def handle_not_found_error(exception = nil)
-    message = exception && exception.message || I18n.t('errors.not_found')
+    message = exception&.message || I18n.t('errors.not_found')
 
     render json: { errors: [message] }, status: :not_found
   end

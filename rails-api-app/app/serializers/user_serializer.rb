@@ -8,7 +8,7 @@ class UserSerializer
     user.created_at&.strftime('%d/%m/%Y')
   end
 
-  attribute :invite_status do  |user|
+  attribute :invite_status do |user|
     user.invitation_accepted_at ? :accepted : :unaccepted
   end
 end

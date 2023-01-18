@@ -1,34 +1,18 @@
-import React, { useState } from 'react';
-
-import './App.css';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import Login from './components/Login';
-import ReferralList from './components/ReferralList';
+import AcceptInvite from "./components/AcceptInvite";
+import MainApp from "./components/MainApp";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 export default function App() {
-  const [token, setToken] = useState();
-
-  if (!token) {
-    return <Login setToken={setToken} />;
-  }
-
-  if (token) {
-    sessionStorage.setItem('token', token);
-  }
-
   return (
-    <>
-      <div className="content">
-        <Header setToken={setToken}/>
-
-        <main>
-          <ReferralList />
-        </main>
-        
-      </div>
-     
-      <Footer />
-    </>
+    <Router>
+      <Switch>
+        <Route exact path="/invite/accept">
+          <AcceptInvite />
+        </Route>
+        <Route>
+          <MainApp />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
