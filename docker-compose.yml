@@ -21,7 +21,8 @@ services:
     ports:
       - "3001:3001"
     environment:      
-      DATABASE_URL: postgres://postgres:postgres@database:5432/referral_app?encoding=utf8&pool=5&timeout=5000   
+      DATABASE_URL: postgres://postgres:postgres@database:5432/referral_app?encoding=utf8&pool=5&timeout=5000  
+      REACT_HOST: http://localhost:3000/invite/accept
     volumes:
       - .:/rails-api-app
     depends_on:

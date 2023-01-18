@@ -71,7 +71,7 @@ or if you are familier with docker then just run these commands
 
 It contains a model called as `User` which has properties like `name`, `email`, `phone_no` and `address` etc. I am using `devise-invitable` module for sending an invite to users.
 
-## React Archietecture
+## React Architecture
 
 I am using `useState` for each component and storing the `jwt` in session storage and on logout clearing the token. Also used `react-router` to render the pages based on the path as for example on `/invite/accept` we show confirm invite page and default we show `signin` page for user to login etc.
 
