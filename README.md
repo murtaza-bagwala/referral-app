@@ -16,6 +16,10 @@ A Fullstack App built using API only Rails and React.
 
 
 
+https://user-images.githubusercontent.com/15953305/213204019-53ac44f5-36b7-4bd6-8c3b-8e11b16b4b5a.mp4
+
+
+
 ## Prerequisites
 
 This app uses :- 
