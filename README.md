@@ -14,11 +14,7 @@ A Fullstack App built using API only Rails and React.
 
 ### Demo Video
 
-
-
 https://user-images.githubusercontent.com/15953305/213204019-53ac44f5-36b7-4bd6-8c3b-8e11b16b4b5a.mp4
-
-
 
 ## Prerequisites
 
@@ -26,7 +22,7 @@ This app uses :-
 
 - Ruby on Rails 7.0
 - Ruby 3.0.1
-- Devise as an authentication module
+- Devise as an authentication module, Devise-Invitable for sending invites and Devise-jwt for jwt creation and expiration.
 - Postgres 13
 - Rspec for unit tests
 - React for frontend
@@ -67,6 +63,8 @@ This app uses :-
 
 or if you are familier with docker then just run these commands
 
+## Docker builds
+
 - `docker compose build`
 - `docker compose up`
 - `docker compose run app rake db:setup`
@@ -75,7 +73,11 @@ or if you are familier with docker then just run these commands
 
 ## Devise User Model
 
-It contains a model called as `User` which has properties like `name`, `email`, `phone_no` and `address` etc. I am using `devise-invitable` module for sending an invite to users.
+It contains a model called as `User` which has properties like `name`, `email`, `phone_no` and `address` etc. I am using `devise-invitable` module for sending an invite to users also added the testcases to verify default model level validations comes with devise on password and email field.
+
+## Testcases
+
+I used Rspec and added testcases for requests and models to verify all the edge cases.
 
 ## React Architecture
 
@@ -282,12 +284,3 @@ Now if scale out in future then this is how our deployment architecture would lo
 - Terraform scripts to set the up the infrastructure.
 - Once the code is merged Circle CI would build and pushes the image the ECR
 - Trigger the EKS to pull the images from ECR and create the .containers
-
-
-
-
-
-
-
-
-
